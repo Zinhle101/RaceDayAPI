@@ -12,7 +12,7 @@
         // foreign key linking cataegory to its race event 
         public int RaceEventId { get; set; }
 
-        // navigation property for the related race event
+        // navigation property that connects to the related race event
         public RaceEvent? RaceEvent { get; set; } 
 
     } // end of class
