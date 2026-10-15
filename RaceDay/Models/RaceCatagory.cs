@@ -9,6 +9,11 @@
 
         public string CategoryDescription { get; set; } = string.Empty;
 
+        // foreign key linking cataegory to its race event 
         public int RaceEventId { get; set; }
+
+        // navigation property for the related race event
+        public RaceEvent? RaceEvent { get; set; } 
+
     } // end of class
 } // end of namespace
