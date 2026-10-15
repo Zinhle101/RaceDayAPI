@@ -12,7 +12,11 @@
 
         public DateTime EventDate { get; set; }
 
+        // foreign key linking the event to its organiser 
         public int OrganiserId { get; set; }
+
+        // navigation property for the organiser 
+        public User? Organiser { get; set; }
 
     } // end of class
 } // end of namespace
