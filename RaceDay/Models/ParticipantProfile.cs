@@ -1,10 +1,16 @@
-﻿namespace RaceDay.Models
+﻿using RaceDay.API.Models;
+
+namespace RaceDay.Models
 { // start of namespace
     public class ParticipantProfile // stores profile information for a participant 
     { // start of class
         public int ParticipantProfileId { get; set; }
 
+        // foreign key that links the profile to a user
         public int UserId { get; set; }
+
+        // navigation property that links the profile to the user
+        public User? user { get; set; }
 
         public string EmergencyContactName { get; set; } = string.Empty;
 
