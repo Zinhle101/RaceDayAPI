@@ -17,7 +17,7 @@ namespace RaceDay.Models
         public int RaceCategoryId { get; set; }
 
         // navigation property that connects a race entry to the related category
-        public RaceCategory? racecategory { get; set }
+        public RaceCategory? racecategory { get; set; }
 
         public DateTime EntryDate { get; set; }
 

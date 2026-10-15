@@ -4,7 +4,11 @@
     { // start of class
         public int RaceResultId { get; set; }
 
+        // foreign key linking the results to a race entry
         public int RaceEntryId { get; set; }
+
+        // navigation property that connects the race results to a race entry
+        public RaceEntry? RaceEntry { get; set; }
 
         public int FinishingPosition { get; set; }
 
