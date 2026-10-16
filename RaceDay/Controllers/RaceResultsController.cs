@@ -72,5 +72,46 @@ namespace RaceDay.API.Controllers
                 raceResult);
         }
 
+        // PUT: api/RaceResults/5
+        // Updates an existing race result.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRaceResult(int id, RaceResult raceResult)
+        {
+            // Checks whether the URL ID matches the result ID.
+            if (id != raceResult.RaceResultId)
+            {
+                return BadRequest();
+            }
+
+            // Finds the existing result in the database.
+            var existingResult = await _context.RaceResults.FindAsync(id);
+
+            // Checks whether the result exists.
+            if (existingResult == null)
+            {
+                return NotFound();
+            }
+
+            // Checks whether the race entry exists.
+            var raceEntryExists = await _context.RaceEntries
+                .AnyAsync(e => e.RaceEntryId == raceResult.RaceEntryId);
+
+            if (!raceEntryExists)
+            {
+                return BadRequest("The selected race entry does not exist.");
+            }
+
+            // Updates the result details.
+            existingResult.RaceEntryId = raceResult.RaceEntryId;
+            existingResult.FinishingPosition = raceResult.FinishingPosition;
+            existingResult.FinishTime = raceResult.FinishTime;
+
+            // Saves the changes to the database.
+            await _context.SaveChangesAsync();
+
+            // Returns a response confirming the update.
+            return NoContent();
+        }
+
     }
 }
