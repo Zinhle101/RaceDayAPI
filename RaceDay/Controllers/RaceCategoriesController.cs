@@ -1,9 +1,9 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RaceDay.API.Data;
 using RaceDay.API.Models;
 using RaceDay.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RaceDay.API.Controllers
 {
@@ -22,6 +22,7 @@ namespace RaceDay.API.Controllers
 
         // GET: api/RaceCategories
         // Retrieves all race categories from the database.
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RaceCategory>>> GetRaceCategories()
         {
@@ -52,6 +53,8 @@ namespace RaceDay.API.Controllers
 
         // POST: api/RaceCategories
         // Creates a new category for a race event.
+
+        [Authorize(Roles = "Organiser")]
         [HttpPost]
         public async Task<ActionResult<RaceCategory>> CreateRaceCategory(RaceCategory raceCategory)
         {
@@ -97,6 +100,8 @@ namespace RaceDay.API.Controllers
 
         // PUT: api/RaceCategories/5
         // Updates an existing race category.
+
+        [Authorize(Roles = "Organiser")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRaceCategory(int id, RaceCategory raceCategory)
         {
@@ -138,6 +143,8 @@ namespace RaceDay.API.Controllers
 
         // DELETE: api/RaceCategories/5
         // Deletes an existing race category from the database.
+
+        [Authorize(Roles = "Organiser")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRaceCategory(int id)
         {
