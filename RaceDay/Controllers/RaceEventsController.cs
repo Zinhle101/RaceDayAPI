@@ -39,12 +39,18 @@ namespace RaceDay.API.Controllers
         }
 
         // POST: api/RaceEvents
+        // Creates and saves a new race event in the database
         [HttpPost]
         public async Task<ActionResult<RaceEvent>> CreateRaceEvent(RaceEvent raceEvent)
         {
+            // Adds the new race event to the database context
             _context.RaceEvents.Add(raceEvent);
+
+            // Saves the new race event to the database
             await _context.SaveChangesAsync();
 
+            // Returns a respomse showing that the event was created successfully 
+            // also provides a link to retrieve the newly created event
             return CreatedAtAction(
                 nameof(GetRaceEvent),
                 new { id = raceEvent.RaceEventId },
