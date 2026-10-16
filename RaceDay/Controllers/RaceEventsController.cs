@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RaceDay.API.Data;
 using RaceDay.API.Models;
@@ -36,5 +37,19 @@ namespace RaceDay.API.Controllers
 
             return raceEvent;
         }
+
+        // POST: api/RaceEvents
+        [HttpPost]
+        public async Task<ActionResult<RaceEvent>> CreateRaceEvent(RaceEvent raceEvent)
+        {
+            _context.RaceEvents.Add(raceEvent);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(
+                nameof(GetRaceEvent),
+                new { id = raceEvent.RaceEventId },
+                raceEvent);
+        }
+
     }
 }
