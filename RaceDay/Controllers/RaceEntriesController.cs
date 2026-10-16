@@ -81,5 +81,78 @@ namespace RaceDay.API.Controllers
                 raceEntry);
         }
 
+        // PUT: api/RaceEntries/5
+        // Updates an existing race entry.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRaceEntry(int id, RaceEntry raceEntry)
+        {
+            // Checks whether the URL ID matches the race entry ID.
+            if (id != raceEntry.RaceEntryId)
+            {
+                return BadRequest();
+            }
+
+            // Finds the existing race entry in the database.
+            var existingEntry = await _context.RaceEntries.FindAsync(id);
+
+            // Checks whether the race entry exists.
+            if (existingEntry == null)
+            {
+                return NotFound();
+            }
+
+            // Checks whether the participant exists.
+            var participantExists = await _context.Users
+                .AnyAsync(u => u.UserID == raceEntry.UserId);
+
+            if (!participantExists)
+            {
+                return BadRequest("The selected participant does not exist.");
+            }
+
+            // Checks whether the race category exists.
+            var categoryExists = await _context.RaceCategories
+                .AnyAsync(c => c.RaceCategoryId == raceEntry.RaceCategoryId);
+
+            if (!categoryExists)
+            {
+                return BadRequest("The selected race category does not exist.");
+            }
+
+            // Updates the race entry details.
+            existingEntry.UserId = raceEntry.UserId;
+            existingEntry.RaceCategoryId = raceEntry.RaceCategoryId;
+
+            // Saves the changes to the database.
+            await _context.SaveChangesAsync();
+
+            // Returns a response confirming the update.
+            return NoContent();
+        }
+
+        // DELETE: api/RaceEntries/5
+        // Deletes an existing race entry.
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRaceEntry(int id)
+        {
+            // Finds the race entry using its ID.
+            var raceEntry = await _context.RaceEntries.FindAsync(id);
+
+            // Checks whether the race entry exists.
+            if (raceEntry == null)
+            {
+                return NotFound();
+            }
+
+            // Removes the race entry from the database context.
+            _context.RaceEntries.Remove(raceEntry);
+
+            // Saves the deletion to the database.
+            await _context.SaveChangesAsync();
+
+            // Returns a response confirming that the deletion was successful.
+            return NoContent();
+        }
+
     }
 }
