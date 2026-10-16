@@ -1,11 +1,11 @@
 
-name: RaceDay API CI
+name: RaceDay API CI Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
