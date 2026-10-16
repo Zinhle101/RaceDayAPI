@@ -49,13 +49,43 @@ namespace RaceDay.API.Controllers
             // Saves the new race event to the database
             await _context.SaveChangesAsync();
 
-            // Returns a respomse showing that the event was created successfully 
+            // Returns a response showing that the event was created successfully 
             // also provides a link to retrieve the newly created event
             return CreatedAtAction(
                 nameof(GetRaceEvent),
                 new { id = raceEvent.RaceEventId },
                 raceEvent);
         }
+        // PUT: api/RaceEvents/5
+        // Updates the details of an existing race event.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRaceEvent(int id, RaceEvent raceEvent)
+        {
+            // Checks whether the event ID in the URL matches the event being updated.
+            if (id != raceEvent.RaceEventId)
+            {
+                return BadRequest();
+            }
 
+            // Checks whether the event exists in the database.
+            var existingEvent = await _context.RaceEvents.FindAsync(id);
+
+            if (existingEvent == null)
+            {
+                return NotFound();
+            }
+
+            // Updates the event details.
+            existingEvent.EventName = raceEvent.EventName;
+            existingEvent.EventDescription = raceEvent.EventDescription;
+            existingEvent.Location = raceEvent.Location;
+            existingEvent.EventDate = raceEvent.EventDate;
+
+            // Saves the changes to the database.
+            await _context.SaveChangesAsync();
+
+            // Returns a response confirming that the update was successful.
+            return NoContent();
+        }
     }
 }
