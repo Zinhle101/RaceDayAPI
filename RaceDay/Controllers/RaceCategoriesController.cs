@@ -77,5 +77,23 @@ namespace RaceDay.API.Controllers
                 raceCategory);
         }
 
+        // GET: api/RaceCategories/5
+        // Retrieves one race category using its ID.
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RaceCategory>> GetRaceCategory(int id)
+        {
+            // Finds the category in the database.
+            var raceCategory = await _context.RaceCategories.FindAsync(id);
+
+            // Checks whether the category exists.
+            if (raceCategory == null)
+            {
+                return NotFound();
+            }
+
+            // Returns the category if it exists.
+            return raceCategory;
+        }
+
     }
 }
