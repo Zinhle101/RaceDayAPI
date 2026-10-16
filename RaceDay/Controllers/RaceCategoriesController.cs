@@ -95,5 +95,46 @@ namespace RaceDay.API.Controllers
             return raceCategory;
         }
 
+        // PUT: api/RaceCategories/5
+        // Updates an existing race category.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRaceCategory(int id, RaceCategory raceCategory)
+        {
+            // Checks whether the URL ID matches the category ID.
+            if (id != raceCategory.RaceCategoryId)
+            {
+                return BadRequest();
+            }
+
+            // Finds the category that needs to be updated.
+            var existingCategory = await _context.RaceCategories.FindAsync(id);
+
+            // Checks whether the category exists.
+            if (existingCategory == null)
+            {
+                return NotFound();
+            }
+
+            // Checks whether the selected race event exists.
+            var raceEventExists = await _context.RaceEvents
+                .AnyAsync(e => e.RaceEventId == raceCategory.RaceEventId);
+
+            if (!raceEventExists)
+            {
+                return BadRequest("The selected race event does not exist.");
+            }
+
+            // Updates the category details.
+            existingCategory.CategoryName = raceCategory.CategoryName;
+            existingCategory.CategoryDescription = raceCategory.CategoryDescription;
+            existingCategory.RaceEventId = raceCategory.RaceEventId;
+
+            // Saves the changes to the database.
+            await _context.SaveChangesAsync();
+
+            // Returns a response confirming the update.
+            return NoContent();
+        }
+
     }
 }
