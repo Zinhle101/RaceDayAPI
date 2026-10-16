@@ -136,5 +136,30 @@ namespace RaceDay.API.Controllers
             return NoContent();
         }
 
+        // DELETE: api/RaceCategories/5
+        // Deletes an existing race category from the database.
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRaceCategory(int id)
+        {
+            // Finds the category using its ID.
+            var raceCategory = await _context.RaceCategories.FindAsync(id);
+
+            // Checks whether the category exists.
+            if (raceCategory == null)
+            {
+                return NotFound();
+            }
+
+            // Removes the category from the database context.
+            _context.RaceCategories.Remove(raceCategory);
+
+            // Saves the deletion to the database.
+            await _context.SaveChangesAsync();
+
+            // Returns a response confirming that the deletion was successful.
+            return NoContent();
+        }
+
+
     }
 }
