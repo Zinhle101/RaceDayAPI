@@ -87,5 +87,30 @@ namespace RaceDay.API.Controllers
             // Returns a response confirming that the update was successful.
             return NoContent();
         }
+
+        // DELETE: api/RaceEvents/5
+        // Deletes an existing race event from the database.
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRaceEvent(int id)
+        {
+            // Finds the race event using its ID.
+            var raceEvent = await _context.RaceEvents.FindAsync(id);
+
+            // Checks whether the race event exists.
+            if (raceEvent == null)
+            {
+                return NotFound();
+            }
+
+            // Removes the race event from the database context.
+            _context.RaceEvents.Remove(raceEvent);
+
+            // Saves the deletion to the database.
+            await _context.SaveChangesAsync();
+
+            // Returns a response confirming that the deletion was successful.
+            return NoContent();
+        }
+
     }
 }
