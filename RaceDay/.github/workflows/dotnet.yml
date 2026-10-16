@@ -1,5 +1,5 @@
 
-name: RaceDay API CI
+name: RaceDay API CI Build
 
 on:
   push:
