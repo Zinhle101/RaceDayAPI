@@ -21,6 +21,61 @@ namespace RaceDay.API.Data
         public DbSet<ParticipantProfile> ParticipantProfiles { get; set; }
 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // A user can organise multiple race events.
+            modelBuilder.Entity<RaceEvent>()
+                .HasOne(r => r.Organiser)
+                .WithMany()
+                .HasForeignKey(r => r.OrganiserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Each race category belongs to one race event.
+            modelBuilder.Entity<RaceCategory>()
+                .HasOne(c => c.RaceEvent)
+                .WithMany()
+                .HasForeignKey(c => c.RaceEventId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Each race entry belongs to one participant.
+            modelBuilder.Entity<RaceEntry>()
+                .HasOne(e => e.Participant)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Each race entry belongs to one category.
+            modelBuilder.Entity<RaceEntry>()
+                .HasOne(e => e.RaceCategory)
+                .WithMany()
+                .HasForeignKey(e => e.RaceCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Each result belongs to one race entry.
+            modelBuilder.Entity<RaceResult>()
+                .HasOne(r => r.RaceEntry)
+                .WithMany()
+                .HasForeignKey(r => r.RaceEntryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Each organiser profile belongs to one user.
+            modelBuilder.Entity<OrganiserProfile>()
+                .HasOne(p => p.User)
+                .WithMany()
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Each participant profile belongs to one user.
+            modelBuilder.Entity<ParticipantProfile>()
+                .HasOne(p => p.User)
+                .WithMany()
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
+
         public RaceDayContext(DbContextOptions<RaceDayContext> options)  // class that communicates with the database
             : base(options)
         {

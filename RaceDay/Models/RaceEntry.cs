@@ -11,13 +11,13 @@ namespace RaceDay.Models
         public int UserId { get; set; }
 
         // navigation property linking an entry to a participant
-        public User? User { get; set; }
+        public User? Participant { get; set; }
 
         // foreign key linking the race entry to a category
         public int RaceCategoryId { get; set; }
 
         // navigation property that connects a race entry to the related category
-        public RaceCategory? racecategory { get; set; }
+        public RaceCategory? RaceCategory { get; set; }
 
         public DateTime EntryDate { get; set; }
 
