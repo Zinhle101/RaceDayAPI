@@ -44,5 +44,33 @@ namespace RaceDay.API.Controllers
             // Returns the result if it exists.
             return raceResult;
         }
+
+        // POST: api/RaceResults
+        // Creates a new result for a race entry.
+        [HttpPost]
+        public async Task<ActionResult<RaceResult>> CreateRaceResult(RaceResult raceResult)
+        {
+            // Checks whether the race entry exists.
+            var raceEntryExists = await _context.RaceEntries
+                .AnyAsync(e => e.RaceEntryId == raceResult.RaceEntryId);
+
+            if (!raceEntryExists)
+            {
+                return BadRequest("The selected race entry does not exist.");
+            }
+
+            // Adds the new result to the database context.
+            _context.RaceResults.Add(raceResult);
+
+            // Saves the result to the database.
+            await _context.SaveChangesAsync();
+
+            // Returns a response confirming that the result was created.
+            return CreatedAtAction(
+                nameof(GetRaceResult),
+                new { id = raceResult.RaceResultId },
+                raceResult);
+        }
+
     }
 }
