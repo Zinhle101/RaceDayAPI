@@ -1,12 +1,13 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RaceDay.API.Data;
 using RaceDay.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RaceDay.API.Controllers
 {
     // Handles requests related to participant race entries.
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class RaceEntriesController : ControllerBase
