@@ -10,7 +10,7 @@ namespace RaceDay.Models
         public int UserId { get; set; }
 
         // navigation property that links the profile to the user
-        public User? user { get; set; }
+        public User? User { get; set; }
 
         public string EmergencyContactName { get; set; } = string.Empty;
 
