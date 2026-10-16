@@ -1,8 +1,8 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RaceDay.API.Data;
 using RaceDay.API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RaceDay.API.Controllers
 {
@@ -40,6 +40,7 @@ namespace RaceDay.API.Controllers
 
         // POST: api/RaceEvents
         // Creates and saves a new race event in the database
+        [Authorize(Roles = "Organiser")]
         [HttpPost]
         public async Task<ActionResult<RaceEvent>> CreateRaceEvent(RaceEvent raceEvent)
         {
@@ -58,6 +59,8 @@ namespace RaceDay.API.Controllers
         }
         // PUT: api/RaceEvents/5
         // Updates the details of an existing race event.
+       
+        [Authorize(Roles = "Organiser")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRaceEvent(int id, RaceEvent raceEvent)
         {
@@ -90,6 +93,8 @@ namespace RaceDay.API.Controllers
 
         // DELETE: api/RaceEvents/5
         // Deletes an existing race event from the database.
+
+        [Authorize(Roles = "Organiser")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRaceEvent(int id)
         {
