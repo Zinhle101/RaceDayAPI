@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center mt-5">
+    <h1 class="display-3 fw-bold">Welcome to RaceDay!</h1>
+
+    <p class="lead mt-3">
+        Your journey starts here.
+    </p>
+
+    <p>
+        Discover running, walking and cycling events.
+        Register for events and keep track of your race results.
+    </p>
+
+    <div class="mt-4">
+        <a asp-controller="Participants"
+           asp-action="Index"
+           class="btn btn-primary btn-lg me-2">
+            Participant Area
+        </a>
+
+        <a asp-controller="Organiser"
+           asp-action="Index"
+           class="btn btn-outline-primary btn-lg">
+            Organiser Area
+        </a>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Organiser Dashboard";
+}
+
+<div class="container mt-5">
+
+    <h1>Organiser Dashboard</h1>
+
+    <p>
+        Welcome to your RaceDay organiser dashboard.
+        Manage your sporting events from here.
+    </p>
+
+    <hr />
+
+    <div class="row">
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card shadow p-3 h-100">
+                <h5>Race Events</h5>
+                <p>Create and manage your race events.</p>
+                <a href="/RaceEvent/Index"
+                   class="btn btn-primary">Manage Events</a>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card shadow p-3 h-100">
+                <h5>Categories</h5>
+                <p>Manage the categories for your events.</p>
+                <a href="/RaceCategory/Index"
+                   class="btn btn-primary">Manage Categories</a>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card shadow p-3 h-100">
+                <h5>Enrolments</h5>
+                <p>View and manage participant enrolments.</p>
+                <a href="/RaceEntry/Index"
+                   class="btn btn-primary">Manage Enrolments</a>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card shadow p-3 h-100">
+                <h5>Results</h5>
+                <p>Record and manage race results.</p>
+                <a href="/RaceResult/Index"
+                   class="btn btn-primary">Manage Results</a>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -8,6 +8,7 @@ using RaceDay.API.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using RaceDay.Models;
 
 namespace RaceDay.API.Controllers
 {
@@ -36,7 +37,7 @@ namespace RaceDay.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(AccountRequest request)
         {
-            // Checks whether the email address is already registered.
+            // Check whether the email address is already registered.
             var emailExists = await _context.Users
                 .AnyAsync(u => u.UserEmail == request.UserEmail);
 
@@ -45,7 +46,7 @@ namespace RaceDay.API.Controllers
                 return BadRequest("This email address is already registered.");
             }
 
-            // Creates a new user account.
+            // Create a new user account.
             var user = new User
             {
                 UserName = request.UserName,
@@ -54,11 +55,21 @@ namespace RaceDay.API.Controllers
                 Role = "Participant"
             };
 
-            // Hashes the password before saving it.
-            user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
+            // Hash the password before saving it.
+            user.PasswordHash = _passwordHasher.HashPassword(
+                user, request.Password);
 
-            // Adds the user to the database.
+            // Save the user first so the database generates the UserID.
             _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            // Now create the participant profile using the generated UserID.
+            var participantProfile = new ParticipantProfile
+            {
+                UserId = user.UserID
+            };
+
+            _context.ParticipantProfiles.Add(participantProfile);
             await _context.SaveChangesAsync();
 
             return Ok("Registration successful.");
